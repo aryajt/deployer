@@ -8,7 +8,7 @@ const PORT = 3001;
 app.get("/deploy/shop", (req, res) => {
     const pm2Name = 'Shop'
     const branchName = 'test-back';
-    const projectDir = "/home/net/deployer";
+    const projectDir = "/home/net/shop-test";
     exec(`cd ${projectDir} && git fetch`, (fetchError) => {
         if (fetchError) {
             return res.status(500).send("Failed to fetch updates.");
