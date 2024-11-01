@@ -17,7 +17,7 @@ app.get("/deploy/shop", (req, res) => {
             if (checkoutError) {
                 return res.status(500).send(`Failed to checkout ${branchName} branch.`);
             }
-            exec(`cd ${projectDir} && npm install`, (installError) => {
+            exec(`cd ${projectDir} && npm install --force`, (installError) => {
                 if (installError) {
                     return res.status(500).send("Failed to install dependencies.");
                 }
