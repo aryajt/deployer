@@ -7,7 +7,7 @@ const PORT = 3001;
 
 app.get("/deploy/shop", (req, res) => {
     const pm2Name = 'Shop-test'
-    const branchName = 'test-back';
+    const branchName = 'back-test';
     const projectDir = "/home/net/shop-test/shop";
     exec(`cd ${projectDir} && git fetch`, (fetchError) => {
         if (fetchError) {
