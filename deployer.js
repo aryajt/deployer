@@ -61,6 +61,34 @@ app.get("/deploy/zar", (req, res) => {
     });
 });
 
+app.get("/deploy/zar-front", (req, res) => {
+    const pm2Name = 'zar-front  '
+    const branchName = 'panel-test';
+    const projectDir = "/home/front/zaradmin";
+    exec(`cd ${projectDir} && git fetch`, (fetchError) => {
+        if (fetchError) {
+            return res.status(500).send("Failed to fetch updates.");
+        }
+        exec(`cd ${projectDir} && git checkout ${branchName} && git pull`, (checkoutError) => {
+            if (checkoutError) {
+                return res.status(500).send(`Failed to checkout ${branchName} branch.`);
+            }
+            exec(`cd ${projectDir} && npm install --force`, (installError) => {
+                if (installError) {
+                    return res.status(500).send("Failed to install dependencies.");
+                }
+
+                exec(`cd ${projectDir} && npm run build`, (pm2Error) => {
+                    if (pm2Error) {
+                        return res.status(500).send("Failed to restart app with PM2.");
+                    }
+                    res.send("Application updated, dependencies installed, and restarted.");
+                });
+            });
+        });
+    });
+});
+
 app.get("/deploy/multi", (req, res) => {
     const pm2Name = 'multi'
     const branchName = 'back-test';
